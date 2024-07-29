@@ -3,6 +3,7 @@ require('dotenv').config();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./api/db/connectDB");
+const appRouter = require('./api/routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -12,11 +13,14 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req, res)=>{
-    res.status(200).send("Hello World");
+    return res.status(200).send("Hello World");
 })
 
-// all our router and base routes can be defined here
+app.use('/api/v1', appRouter);
 
+app.all("*", (req, res)=>{
+    res.status(404).send("ERROR 404: Route not found");
+})
 
 connectDB(CONNECTION_STRING);
 
