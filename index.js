@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const contactRoutes = require('./routes/contactRoutes');
-const connectDb=require('./db/connectDB')
+const contactRoutes = require('./api/routes/contactRoutes');
+const connectDb=require('./api/db/connectDB')
 connectDb();
 const app = express();
 const PORT = process.env.PORT || 3000;
