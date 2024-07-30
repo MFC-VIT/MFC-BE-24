@@ -1,17 +1,15 @@
 const mongoose = require("mongoose");
-const connectDB = (connection_string)=>{
-    return mongoose
-        .connect(connection_string)
-        .then(c=>{
-            console.log(`Database Connected:`);
-            console.log(`Host: ${c.connection.host}`);
-            console.log(`Port: ${c.connection.port}`);
-            console.log(`Name: ${c.connection.name}\n`);
-            })
-        .catch(err=>{
-            console.log(err);
-            process.exit(1);
-        })   
+
+const connectDb = async () => {
+    try {
+        await mongoose.connect('mongodb://127.0.0.1:27017/mfc_portal', {
+           
+        });
+        console.log(`Successfully connected to database`);
+    } catch (error) {
+        console.error(`Error : ${error.message}`);
+        process.exit(1);
+    }
 };
 
-module.exports = connectDB;
+module.exports = connectDb;
