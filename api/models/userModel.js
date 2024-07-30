@@ -33,8 +33,11 @@ const userSchema = new mongoose.Schema({
         required:true,
     },
     role:{
-        type:String,
-        enum:["Admin","user"]
+        isAdmin:{
+            type:Boolean,
+            required:true,
+            default:false
+        }
     }
 });
 const userValidationSchema = z.object({
