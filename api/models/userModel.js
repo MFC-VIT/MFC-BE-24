@@ -1,9 +1,5 @@
-/**
- * { id, username / (firstName and lastName), emailId, password..etc }
- * (Input validation for every property (can try zod!!!))
- */
 const mongoose = require('mongoose');
-const {z} = require('zod');
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
     id:{
@@ -11,34 +7,39 @@ const userSchema = new mongoose.Schema({
         auto:true,
     },
     username:{
-        type:String,
-        required:true,
-        unique:true,
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
     },
     firstName: {
         type: String,
         required: true,
+        trim: true
     },
     lastName: {
         type: String,
         required: true,
+        trim: true
     },
     email:{
-        type:String,
-        required:true,
+        type: String,
+        required: true,
+        lowercase: true,
         unique: true,
-        match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'],
+        trim: true,
+        //RFC 5322 https://emailregex.com/
+        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Please use a valid email address.'],
     },
     password:{
-        type:String,
-        required:true,
+        type: String,
+        required: true,
+        trim: true,
     },
-    role:{
-        isAdmin:{
-            type:Boolean,
-            required:true,
-            default:false
-        }
+    isAdmin:{
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 const userValidationSchema = z.object({
