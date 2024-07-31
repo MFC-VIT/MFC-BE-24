@@ -1,30 +1,23 @@
-const express = require("express");
 require('dotenv').config();
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const connectDB = require("./api/db/connectDB");
-const appRouter = require('./api/routes/index');
+const express = require('express');
+const bodyParser = require('body-parser');
+//const contactRoutes = require('./api/routes/contactRoutes');
+const connectDb=require('./api/db/connectDB')
+const blogRoutes =require('./api/routes/blogRoute')
+const userRoutes =require('./api/routes/userRoute')
 
+connectDb();
 const app = express();
-const PORT = process.env.PORT || 5000;
-const CONNECTION_STRING = process.env.CONNECTION_STRING;
+const PORT = process.env.PORT || 3000;
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
 
-app.get('/', (req, res)=>{
-    return res.status(200).send("Hello World");
-})
+//app.use('/api', contactRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/users',userRoutes);
 
-app.use('/api/v1', appRouter);
 
-app.all("*", (req, res)=>{
-    res.status(404).send("ERROR 404: Route not found");
-})
-
-connectDB(CONNECTION_STRING);
-
-app.listen(PORT, ()=>{
-    console.log(`Server is listening on port: ${PORT}`);
-    console.log(`http://localhost:${PORT}\n`);
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

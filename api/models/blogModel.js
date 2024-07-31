@@ -4,10 +4,7 @@
 const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
-    id:{
-        type:mongoose.Schema.ObjectId,
-        auto:true,
-    },
+    
     title:{
         type:String,
         required:true
@@ -20,8 +17,8 @@ const blogSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    autheredDate:{
-        tyep:Date,
+    authoredDate:{
+        type:Date,
         required:true,
         default:Date.now()
     }

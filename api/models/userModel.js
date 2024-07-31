@@ -8,6 +8,7 @@ const {z} = require('zod');
 const userSchema = new mongoose.Schema({
     id:{
         type:mongoose.Schema.ObjectId,
+        auto:true,
     },
     username:{
         type:String,
@@ -46,7 +47,7 @@ const userValidationSchema = z.object({
     lastName: z.string().min(2).max(50),
     email: z.string().email(),
     password: z.string().min(6),
-    role: z.string().role()
+    role: z.string()
 });
 
-module.exports = mongoose.model("user",userSchema);
+module.exports = mongoose.model("User",userSchema);

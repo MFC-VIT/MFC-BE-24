@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
-const connectDB = (connection_string)=>{
-    return mongoose
-        .connect(connection_string)
+require('dotenv').config();
+const connectDB = (CONNECTION_STRING)=>{
+        mongoose.connect(process.env.CONNECTION_STRING,{
+            useNewUrlParser:true,
+            useUnifiedTopology:true,
+        })
         .then(c=>{
             console.log(`Database Connected:`);
             console.log(`Host: ${c.connection.host}`);
