@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
-
+const{z} = require('zod');
 const userSchema = new mongoose.Schema({
     id:{
         type:mongoose.Schema.ObjectId,
