@@ -9,7 +9,7 @@ exports.sendContactEmail = async (req, res) => {
   console.log(email)
   const mailOptions = {
     from: `${email}`,
-    to: 'ishaanagarwal1203@gmail.com',
+    to: '',
     subject: `Contact Us Message from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
   };
