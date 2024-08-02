@@ -19,7 +19,6 @@ passport.use(
         try {
 
             if (existingUser){
-                console.log(existingUser);
                 return done(null, existingUser);
             }
             else {
@@ -29,7 +28,6 @@ passport.use(
                     email: profile.emails[0].value,
                     thumbnail: profile.photos[0].value, 
                 }).save().then((newUser)=>{
-                    console.log("new User created: ", newUser);
                     return done(null, newUser);
                 })
             }
