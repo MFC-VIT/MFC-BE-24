@@ -1,21 +1,23 @@
 const express = require("express");
-
+require("dotenv").config();
 const router = express.Router();
+const { verifySession } = require("../middleware/authMiddleware"); 
+const {
+    googleAuth,
+    googleCallback,
+    login,
+    logout,
+} = require("../controllers/authControllers");
 
-/**
- ** Auth Routes
- * 
- * @Login [POST][/login]
- * request->{ username/email, password }
- * (This will fetch the user from db if it exists)
- * 
- * @Signup [POST][/signup]
- * request-> { username, email, password }
- * (This route is responsible for creating the user in db)
- * 
- * Status Codes: { 200: Success, 201: User Created, 400: Bad Request, 401: Unauthorised, 404: User note found, 500: Internal Server Error }
- * 
- */
+router.get('/google', googleAuth);
+
+router.get('/google/redirect', googleCallback, login);
+
+router.get('/logout', verifySession, logout);
+
+router.get('/test', verifySession, (req, res) => {
+    res.json({ message: 'This is a test route', user: req.user });
+});
 
 
 module.exports = router;
