@@ -6,12 +6,15 @@ const jwtSecret = process.env.JWT_SECRET;
 
 const verifySession = (req, res, next) => {
     const token = req.cookies.authToken;
+    console.log(token);
     if (!token) {
         return res.status(401).json({ error: 'No token provided' });
     }
     try {
+     
         const decoded = jwt.verify(token, jwtSecret);
         req.user = decoded;
+      
         User.findById(decoded.id)
             .then(user => {
                 if (!user) {

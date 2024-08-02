@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
-        required: true,
-    },
+    // author: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Users",
+    //     required: true,
+    // },
     title:{
         type: String,
         required: true,
@@ -21,8 +21,8 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
     autheredDate:{
-        tyep: Date,
-        required: true,
+        type: Date,
+        
         default: Date.now()
     }
 });

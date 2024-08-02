@@ -26,6 +26,7 @@ module.exports = {
 
     login: (req, res)=>{
         const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+       
         res.cookie('authToken', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
-
+const{z} = require('zod');
 const userSchema = new mongoose.Schema({
+
     username:{
         type: String,
         required: true,
@@ -28,6 +29,14 @@ const userSchema = new mongoose.Schema({
     googleId: {
         type: String,
     }
+});
+const userValidationSchema = z.object({
+    username: z.string().min(3).max(30),
+    firstName: z.string().min(2).max(50),
+    lastName: z.string().min(2).max(50),
+    email: z.string().email(),
+    password: z.string().min(6),
+    role: z.string()
 });
 
 module.exports = mongoose.model("user",userSchema);

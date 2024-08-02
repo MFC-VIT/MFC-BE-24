@@ -15,5 +15,16 @@ const router = express.Router();
  * 
  * middlewares (to verify login session, isAdmin etc..)
  */
-
+ const userController = require('../controllers/adminController');
+ // Ensure to create this middleware
+ 
+ // Routes for user management
+ router.get('/', userController.getAllUsers);
+ router.get('/:userId',userController.getUser);
+ router.put('/:userId', userController.updateUser);
+ router.delete('/:userId', userController.deleteUser);
+ 
+ 
+ 
 module.exports = router;
+ 

@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+require("dotenv").config();
 const router = express.Router();
 const { verifySession, isAdmin } = require("../middleware/authMiddleware"); 
 const {

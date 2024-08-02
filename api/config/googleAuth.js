@@ -13,6 +13,7 @@ passport.use(
         //passport callback function
         // accessToken: token from google
         // check if user already exists in database
+        console.log(profile);
         const existingUser = await User.findOne({ 
             googleId: profile.id  
         }) 
