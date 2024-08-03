@@ -60,8 +60,8 @@ module.exports = {
     scope: ["profile", "email"],
   }),
   googleCallback: passport.authenticate("google", {
-    successRedirect: "http://localhost:3000/dashboard",
-    failureRedirect: "http://localhost:3000/login",
+    successRedirect: "http://localhost:5173/home",
+    failureRedirect: "http://localhost:5173/login",
   }),
   successLogin: async (req, res) => {
     console.log("req", req.user);
@@ -83,7 +83,7 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      res.redirect("http://localhost:3000/login");
+      res.redirect("http://localhost:5173/login");
     });
   },
 };
