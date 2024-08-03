@@ -16,7 +16,7 @@ const {
 // const { verifyToken, isAdmin } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
-router.get("/", getAllBlogs);
+// router.get("/", getAllBlogs);
 router.post("/", validateToken, validateIsAdmin, createBlog);
 router.put("/:id", validateToken, validateIsAdmin, updateBlog);
 router.delete("/:id", verifySession, validateIsAdmin, deleteBlog);
