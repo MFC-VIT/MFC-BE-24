@@ -1,28 +1,14 @@
 const express = require("express");
-require("dotenv").config();
-require("dotenv").config();
+const authController = require("../controllers/authControllers");
+
 const router = express.Router();
-const { verifySession, isAdmin } = require("../middleware/authMiddleware"); 
-const {
-    googleAuth,
-    googleCallback,
-    login,
-    logout,
-} = require("../controllers/authControllers");
 
-router.get('/google', googleAuth);
-
-router.get('/google/redirect', googleCallback, login);
-
-router.get('/logout', verifySession, logout);
-
-router.get('/test', verifySession, (req, res) => {
-    res.json({ message: 'This is a test route', user: req.user });
+router.get("/", (req, res) => {
+  res.status(200).json("server start");
 });
-
-router.get('/test/admin', verifySession, isAdmin, (req, res) => {
-    res.json({ message: 'This is a test route', user: req.user });
-});
-
+router.get("/auth/google", authController.authenticateGoogle);
+router.get("/auth/google/callback", authController.googleCallback);
+router.get("/login/success", authController.successLogin);
+router.get("/logout", authController.successLogout);
 
 module.exports = router;
