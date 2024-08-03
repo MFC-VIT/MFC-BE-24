@@ -30,7 +30,7 @@ exports.createBlog = async (req, res) => {
 //http://localhost:3000/api/blogs/{id}
 exports.updateBlog = async (req, res) => {
   try {
-    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedBlog = await Blog.findByIdAndUpdate(req.params.blogid, req.body, {
       new: true,
     });
     res.json(updatedBlog);
@@ -42,7 +42,7 @@ exports.updateBlog = async (req, res) => {
 exports.deleteBlog = async (req, res) => {
   // console.log(req.params.id)
   try {
-    await Blog.findByIdAndDelete(req.params.id);
+    await Blog.findByIdAndDelete(req.params.blogid);
     res.json({ message: "Blog deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });

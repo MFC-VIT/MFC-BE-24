@@ -41,8 +41,9 @@ const validateToken = async (req, res, next) => {
   }
 
   token = authHeader.split(" ")[1];
+
   try {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECERT, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ message: "User is not authorized" });
       }
@@ -80,7 +81,7 @@ const validateIsAdmin = async (req, res, next) => {
 
   token = authHeader.split(" ")[1];
   try {
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECERT, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ message: "User is not authorized" });
       }

@@ -3,8 +3,8 @@ const OAuth2Strategy = require("passport-google-oauth2").Strategy;
 const userdb = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-const clientid = process.env.CLIENT_ID;
-const clientsecret = process.env.CLIENT_SECRET;
+const clientid = process.env.GOOGLE_CLIENT_ID;
+const clientsecret = process.env.GOOGLE_CLIENT_SECRET;
 const jwtSecret = process.env.JWT_SECRET;
 
 passport.use(
@@ -16,7 +16,7 @@ passport.use(
       scope: ["profile", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("GOOGLE PROFILE:", profile);
+      // console.log("GOOGLE PROFILE:", profile);
       try {
         if (
           profile.emails &&
@@ -33,7 +33,7 @@ passport.use(
               image: profile.photos[0].value,
               isAdmin: false,
             });
-
+            console.log(user);
             await user.save();
           }
           return done(null, user);
@@ -83,7 +83,7 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      res.redirect("http://localhost:5173/login");
+      res.redirect("http://localhost:5173/");
     });
   },
 };
