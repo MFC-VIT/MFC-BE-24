@@ -71,9 +71,11 @@ module.exports = {
         jwtSecret,
         { expiresIn: "1h" }
       );
+      console.log("Ishaaan",req.user,token)
       res
         .status(200)
         .json({ message: "Login successful", user: req.user, token });
+        
     } else {
       res.status(401).json({ message: "User not authenticated" });
     }

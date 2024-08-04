@@ -38,13 +38,14 @@ exports.updateBlog = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-//http://localhost:3000/api/blogs/{id}
+//http://localhost:3000/api/blogs/user:{id}/blogs:{id}
 exports.deleteBlog = async (req, res) => {
-  // console.log(req.params.id)
+  console.log(req.params.id)
   try {
     await Blog.findByIdAndDelete(req.params.blogid);
     res.json({ message: "Blog deleted" });
   } catch (err) {
+    console.log("Heloo")
     res.status(500).json({ error: err.message });
   }
 };
