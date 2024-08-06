@@ -4,30 +4,30 @@ require("dotenv").config();
 
 const jwtSecret = process.env.JWT_SECRET;
 
-const verifySession = (req, res, next) => {
-  const token = req.cookies.authToken;
-  console.log(token);
-  if (!token) {
-    return res.status(401).json({ error: "No token provided" });
-  }
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    req.user = decoded;
+// const verifySession = (req, res, next) => {
+//   const token = req.cookies.authToken;
+//   console.log(token);
+//   if (!token) {
+//     return res.status(401).json({ error: "No token provided" });
+//   }
+//   try {
+//     const decoded = jwt.verify(token, jwtSecret);
+//     req.user = decoded;
 
-    User.findById(decoded.id)
-      .then((user) => {
-        if (!user) {
-          return res.status(401).json({ error: "User not found" });
-        }
-        next();
-      })
-      .catch((error) => {
-        return res.status(401).json({ error: "Unauthorized" });
-      });
-  } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
-  }
-};
+//     User.findById(decoded.id)
+//       .then((user) => {
+//         if (!user) {
+//           return res.status(401).json({ error: "User not found" });
+//         }
+//         next();
+//       })
+//       .catch((error) => {
+//         return res.status(401).json({ error: "Unauthorized" });
+//       });
+//   } catch (error) {
+//     return res.status(401).json({ error: "Invalid token" });
+//   }
+// };
 
 const validateToken = async (req, res, next) => {
   let token;
@@ -123,7 +123,6 @@ const isAdmin = async (req, res, next) => {
 
 module.exports = {
   validateToken,
-  verifySession,
   validateIsAdmin,
   isAdmin,
 };
