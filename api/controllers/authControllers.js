@@ -61,17 +61,17 @@ module.exports = {
   }),
   googleCallback: passport.authenticate("google", {
     successRedirect: "http://localhost:5173/home",
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: "http://localhost:5173/failed",
   }),
   successLogin: async (req, res) => {
-    console.log("req", req.user);
+    console.log("req", req);
     if (req.user) {
       const token = jwt.sign(
         { id: req.user._id, email: req.user.email, isAdmin: req.user.isAdmin },
         jwtSecret,
         { expiresIn: "1h" }
       );
-      console.log("Ishaaan",req.user,token)
+      console.log(req.user,token)
       res
         .status(200)
         .json({ message: "Login successful", user: req.user, token });
@@ -81,11 +81,17 @@ module.exports = {
     }
   },
   successLogout: async (req, res, next) => {
-    req.logout(function (err) {
+    req.logout((err) => {
       if (err) {
-        return next(err);
+        return res.status(500).json({ message: "Logout failed" });
       }
-      res.redirect("http://localhost:5173/");
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ message: "Session destruction failed" });
+        }
+        res.clearCookie('connect.sid', { path: '/' });
+        return res.status(200).json({message: "Logout Successful"})
+      });
     });
   },
 };
