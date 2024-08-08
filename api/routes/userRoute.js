@@ -23,19 +23,19 @@ const {
 // Ensure to create this middleware
 
 // Routes for user management
-router.get("/", userController.getAllUsers);
-router.get("/:userId", validateToken, validateIsAdmin, userController.getUser);
-router.put(
-  "/:userId",
-  validateToken,
-  validateIsAdmin,
-  userController.updateUser
-);
-router.delete(
-  "/:userId",
-  validateToken,
-  validateIsAdmin,
-  userController.deleteUser
-);
+router.get("/:id",validateToken, validateIsAdmin, userController.getAllUsers);
+// router.get("/:userId", validateToken, validateIsAdmin, userController.getUser);
+// router.put(
+//   "/:id",
+//   validateToken,
+//   validateIsAdmin,
+//   userController.updateUser
+// );
+// router.delete(
+//   "/:id",
+//   validateToken,
+//   validateIsAdmin,
+//   userController.deleteUser
+// );
 
 module.exports = router;
