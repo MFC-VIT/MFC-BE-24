@@ -6,6 +6,7 @@ const authRoutes = require("./api/routes/authRoute");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+const emaillimitRoute = require('./api/routes/emailLimitRoute');
 
 const bodyParser = require("body-parser");
 // const connectDB = require("./api/db/connectDB");
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use("/api", contactRoutes);
 app.use("/api/v1/blogs", blogRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1",emaillimitRoute)
 
 
 
@@ -52,6 +54,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", authRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
