@@ -47,6 +47,10 @@ app.use(
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      secure: true,
+      sameSite: "None",
+    },
   })
 );
 
