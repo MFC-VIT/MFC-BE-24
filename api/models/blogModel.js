@@ -22,7 +22,7 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
     autheredDate:{
-        type: Date,
+        type: String,
         validate:{
             validator: function(v){
                 return moment(v,'DD/MM/YYYY',true).isValid();

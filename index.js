@@ -7,6 +7,7 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const emaillimitRoute = require('./api/routes/emailLimitRoute');
+const emailLimit = require("./api/routes/contactRoutes")
 
 const bodyParser = require("body-parser");
 // const connectDB = require("./api/db/connectDB");
@@ -37,7 +38,7 @@ app.use(cookieParser());
 app.use("/api", contactRoutes);
 app.use("/api/v1/blogs", blogRoutes);
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1",emaillimitRoute)
+app.use("/api/v1",emailLimit,emaillimitRoute)
 
 
 

@@ -2,10 +2,10 @@ const express = require('express');
 const { transporter, emailRateLimiter } = require('../utils/nodemailer');
 exports.emailLimit = [ emailRateLimiter, (req, res) => {
     const mailOptions = {
-        from: process.env.EMAIL,
-        to: req.body.to,
-        subject: req.body.subject,
-        text: req.body.text
+        from: req.body.email,
+        to: process.env.CONTACT_EMAIL,
+        //subject: req.body.subject,
+        text: req.body.message
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
