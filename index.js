@@ -29,9 +29,12 @@ app.use(
 );
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
+app.use(passport.initialize());
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(cookieParser());
 
@@ -47,13 +50,10 @@ app.use(
     secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: {
-      secure: true,
-      sameSite: "None",
-    },
   })
 );
 
+app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", authRoutes);
 
