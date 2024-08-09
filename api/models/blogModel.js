@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+//first download moment to use this "npm install moment"
+const moment = require('moment');
 const blogSchema = new mongoose.Schema({
     // author: {
     //     type: mongoose.Schema.Types.ObjectId,
@@ -22,8 +23,11 @@ const blogSchema = new mongoose.Schema({
     },
     autheredDate:{
         type: Date,
-        
-        default: Date.now()
+        validate:{
+            validator: function(v){
+                return moment(v,'DD/MM/YYYY',true).isValid();
+            }
+        }
     },
     imgLink: {
         type: String,
