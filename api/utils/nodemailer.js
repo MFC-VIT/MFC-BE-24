@@ -18,7 +18,7 @@ const emailRateLimiter = rateLimit({
   max: 3,
   message: "You have exceeded the 3 requests per day limit for sending emails",
   headers: true,
-  keyGenerator: (req) => req.ip,
+  keyGenerator: (req) => req.body.email,
 });
 
 module.exports = {transporter,emailRateLimiter};
