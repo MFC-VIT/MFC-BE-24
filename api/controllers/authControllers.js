@@ -61,7 +61,7 @@ module.exports = {
   }),
   googleCallback: passport.authenticate("google", {
     successRedirect: "http://localhost:5173/home",
-    failureRedirect: "http://localhost:5173/login/failed",
+    failureRedirect: "http://localhost:5173/failed",
   }),
   successLogin: async (req, res) => {
     console.log("req", req);
