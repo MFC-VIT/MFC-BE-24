@@ -5,7 +5,7 @@ const {
   deleteBlog,
   getAllBlogs,
   test,
-} = require("../controllers/blogController");
+} = require("../controllers/blogcontroller");
 const {
   verifySession,
   isAdmin,
