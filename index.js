@@ -47,7 +47,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: sessionSecret,
+    secret: "qwe123asd456zxc789",
     resave: false,
     saveUninitialized: true,
   })
