@@ -6,6 +6,7 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./api/db/connectDB");
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const contactRoutes = require("./api/routes/contactRoutes");
 const blogRoutes = require("./api/routes/blogRoute");
@@ -17,6 +18,7 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const URL = process.env.URL;
+const URI = process.env.URI;
 
 app.use(
   cors({
@@ -34,13 +36,22 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "default_secret_key",
+    store: new MongoDBStore({
+      uri: URI,
+      collection: 'sessions',
+    }),
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24, 
+      sameSite: 'none',
+    },
+    proxy: true, 
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
