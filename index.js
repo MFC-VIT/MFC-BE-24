@@ -10,6 +10,7 @@ const emaillimitRoute = require("./api/routes/emailLimitRoute");
 const emailLimit = require("./api/routes/contactRoutes");
 
 const bodyParser = require("body-parser");
+
 // const connectDB = require("./api/db/connectDB");
 
 const passport = require("passport");
@@ -27,14 +28,12 @@ app.use(
     credentials: true,
   })
 );
+app.set("trust proxy", 1);
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json());
 
-app.use(passport.initialize());
-app.use(cookieParser());
 app.use(passport.initialize());
 app.use(cookieParser());
 
@@ -50,6 +49,7 @@ app.use(
     secret: "qwe123asd456zxc789",
     resave: false,
     saveUninitialized: true,
+    proxy: true,
   })
 );
 
