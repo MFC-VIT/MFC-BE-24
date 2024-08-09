@@ -1,26 +1,23 @@
 require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const connectDB = require("./api/db/connectDB");
+
 const contactRoutes = require("./api/routes/contactRoutes");
 const blogRoutes = require("./api/routes/blogRoute");
 const userRoutes = require("./api/routes/userRoute");
 const authRoutes = require("./api/routes/authRoute");
-const express = require("express");
-const cors = require("cors");
-const session = require("express-session");
 const emaillimitRoute = require("./api/routes/emailLimitRoute");
-const emailLimit = require("./api/routes/contactRoutes");
 
-const bodyParser = require("body-parser");
-
-// const connectDB = require("./api/db/connectDB");
-
-const passport = require("passport");
-const cookieParser = require("cookie-parser");
-const connectDB = require("./api/db/connectDB");
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const URL = process.env.URL;
-const sessionSecret = process.env.SESSION_SECRET;
+
 app.use(
   cors({
     origin: URL,
@@ -28,33 +25,30 @@ app.use(
     credentials: true,
   })
 );
+
 app.set("trust proxy", 1);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
 app.use(cookieParser());
-
-app.use("/api", contactRoutes);
-app.use("/api/v1/blogs", blogRoutes);
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1", emailLimit, emaillimitRoute);
-
-app.use(express.json());
 
 app.use(
   session({
-    secret: "qwe123asd456zxc789",
+    secret: process.env.SESSION_SECRET || "default_secret_key",
     resave: false,
-    saveUninitialized: true,
-    proxy: true,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/api", contactRoutes);
+app.use("/api/v1/blogs", blogRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1", emaillimitRoute);
+
 app.use("/", authRoutes);
 
 app.listen(PORT, () => {
