@@ -13,12 +13,14 @@ const blogRoutes = require("./api/routes/blogRoute");
 const userRoutes = require("./api/routes/userRoute");
 const authRoutes = require("./api/routes/authRoute");
 const emaillimitRoute = require("./api/routes/emailLimitRoute");
+const newsLetterRoute = require("./api/routes/newsLetterRoutes")
 
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const URL = process.env.URL;
 const URI = process.env.URI;
+
 
 app.use(
   cors({
@@ -59,6 +61,7 @@ app.use("/api", contactRoutes);
 app.use("/api/v1/blogs", blogRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1", emaillimitRoute);
+app.use("/api/v1/newsLetter",newsLetterRoute)
 
 app.use("/", authRoutes);
 
