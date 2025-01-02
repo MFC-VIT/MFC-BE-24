@@ -113,3 +113,26 @@ exports.getAllNewsletters =async (req, res) => {
     }
 };
 
+exports.getAlllatestNewsletters = async(req,res) =>{
+    try{
+        const allNewsLetters = await newsletter.aggregate(
+            [
+                {
+                    '$sort':{
+                        'uploadDate':-1
+                    }
+                }
+            ]
+        )
+        return res.status(201).json({
+            "message":"All newsletters fetched",
+            "data":allNewsLetters
+        })
+    }catch(error) {
+        console.error(err)
+        return res.status(400).json({
+            message:"Could not fetch NewsLetters",
+            error: error.message
+        })
+    }
+}
