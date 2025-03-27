@@ -18,13 +18,13 @@ const newsLetterRoute = require("./api/routes/newsLetterRoutes")
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
-const URL = process.env.URL;
 const URI = process.env.URI;
+const API = process.env.API_URL
 
 
 app.use(
   cors({
-    origin: '*',
+    origin: API,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
