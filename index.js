@@ -24,7 +24,7 @@ const URI = process.env.URI;
 
 app.use(
   cors({
-    origin: URL,
+    origin: '*',
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
