@@ -129,7 +129,7 @@ exports.getAlllatestNewsletters = async(req,res) =>{
             "data":allNewsLetters
         })
     }catch(error) {
-        console.error(err)
+        console.error(error)
         return res.status(400).json({
             message:"Could not fetch NewsLetters",
             error: error.message
