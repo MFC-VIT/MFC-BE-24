@@ -24,7 +24,7 @@ const API = process.env.API_URL
 
 app.use(
   cors({
-    origin: API,
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
