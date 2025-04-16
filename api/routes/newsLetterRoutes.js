@@ -2,7 +2,14 @@ const  express = require('express')
 const router = express.Router()
 
 
-const {uploadNewsLetter,getLatestNewsLetters,getAllNewsletters,getAlllatestNewsletters} = require("../controllers/newsLetterController")
+const {
+    uploadNewsLetter,
+    getLatestNewsLetters,
+    getAllNewsletters,
+    getAlllatestNewsletters,
+    subscribeNewsletter
+} = require("../controllers/newsLetterController")
+
 const upload = require("../middleware/multerMiddleware")
 
 router.post("/upload",
@@ -10,10 +17,10 @@ router.post("/upload",
     uploadNewsLetter
 );
   
-
 router.get("/getLatest",getLatestNewsLetters);
 router.get("/getAll",getAllNewsletters)
 router.get("/getAllNewsLetters",getAlllatestNewsletters)
+router.post("/subscribeNewsletter", subscribeNewsletter)
 
 
 module.exports = router;

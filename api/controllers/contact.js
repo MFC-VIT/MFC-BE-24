@@ -1,14 +1,18 @@
-const transporter = require("../utils/nodemailer");
+const {transporter} = require("../utils/nodemailer");
 
 exports.sendContactEmail = async (req, res) => {
   const { name, email, message } = req.body;
+
+  console.log("route hit")
+
+  console.log("data", req.body)
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: "All fields are required" });
   }
   const mailOptions = {
     from: `${email}`,
-    to: "",
+    to: process.env.CONTACT_EMAIL,
     subject: `Contact Us Message from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
   };

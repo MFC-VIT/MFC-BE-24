@@ -1,5 +1,6 @@
 const express = require('express')
-const newsletter = require("../models/newsLetter")
+const newsletter = require("../models/newsLetter");
+const subscribeNewsLetterSchema = require("../models/subscribeNewsletter")
 const cloudinary = require("../db/connectCloudinary");
 const streamifier = require("streamifier");
 
@@ -135,4 +136,35 @@ exports.getAlllatestNewsletters = async(req,res) =>{
             error: error.message
         })
     }
+}
+
+exports.subscribeNewsletter = async(req, res) => {
+    try {
+        const {email} = req.body;
+
+        const user = await subscribeNewsLetterSchema.findOne({ 
+                email: email
+            });
+
+        if (user) {
+            return res.status(400).json({
+                    message:"Mail already subscribed"
+                });
+        }
+
+        const newUser = new subscribeNewsLetterSchema({ email: email });
+
+        await newUser.save();
+
+        return res.status(200).json({
+            message:"Thanks for subscribing to our NewsLetter"
+        });
+
+    }catch(error) {
+        console.error(error);
+        return res.status(500).json({
+            message:"Internal Server Error"
+        })
+    }
+
 }
