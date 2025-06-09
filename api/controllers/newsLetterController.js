@@ -1,8 +1,8 @@
-const express = require('express')
 const newsletter = require("../models/newsLetter");
 const subscribeNewsLetterSchema = require("../models/subscribeNewsletter")
 const cloudinary = require("../db/connectCloudinary");
 const streamifier = require("streamifier");
+const redisClient = require('../db/connectRedis').client
 
 exports.uploadNewsLetter = async (req, res) => {
     try {
@@ -51,6 +51,8 @@ exports.uploadNewsLetter = async (req, res) => {
 
         const pdfUrl = pdfUploadResult.secure_url;
         const coverUrl = coverUploadResult.secure_url;
+
+        redisClient.del('newsletter:all');
 
         const newNewsLetterDoc = new newsletter({
             title,
@@ -102,10 +104,22 @@ exports.getLatestNewsLetters = async(req,res) =>{
 
 exports.getAllNewsletters =async (req, res) => {
     try {
-        const nl = await newsletter.find()
+        const cachedNewsLetters =  await redisClient.get('newsletter:all');
+
+        if (cachedNewsLetters) {
+            return res.status(200).json({
+                message: "All newsletters fetched successfully from cache!",
+                data: JSON.parse(cachedData),
+            });
+        }
+
+        const newsLetters = await newsletter.find()
+
+        await redisClient.set('newsletters:all', JSON.stringify(newsletters), 'EX', 3600);
+
         res.status(200).json({
             message: "All newsletters fetched successfully!",
-            data: nl,
+            data: newsLetters,
         });
     } catch (error) {
         res.status(500).json({
@@ -114,29 +128,42 @@ exports.getAllNewsletters =async (req, res) => {
     }
 };
 
-exports.getAlllatestNewsletters = async(req,res) =>{
-    try{
-        const allNewsLetters = await newsletter.aggregate(
-            [
-                {
-                    '$sort':{
-                        'uploadDate':-1
-                    }
-                }
-            ]
-        )
-        return res.status(201).json({
-            "message":"All newsletters fetched",
-            "data":allNewsLetters
-        })
-    }catch(error) {
-        console.error(error)
-        return res.status(400).json({
-            message:"Could not fetch NewsLetters",
-            error: error.message
-        })
+exports.getAlllatestNewsletters = async (req, res) => {
+    try {
+
+        const cachedData = await redisClient.get('newsletters:latest');
+
+        if (cachedData) {
+            return res.status(200).json({
+                message: "Latest newsletters fetched from cache!",
+                data: JSON.parse(cachedData),
+            });
+        }
+
+        const allNewsLetters = await newsletter.aggregate([
+            {
+                $sort: {
+                    uploadDate: -1,
+                },
+            },
+        ]);
+
+        await redisClient.set('newsletters:latest', JSON.stringify(allNewsLetters), 'EX', 3600); // cache for 1 hour
+
+        return res.status(200).json({
+            message: "Latest newsletters fetched successfully!",
+            data: allNewsLetters,
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Could not fetch latest newsletters",
+            error: error.message,
+        });
     }
-}
+};
+
 
 exports.subscribeNewsletter = async(req, res) => {
     try {

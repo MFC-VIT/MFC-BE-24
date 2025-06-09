@@ -5,8 +5,10 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const connectDB = require("./api/db/connectDB");
 const MongoDBStore = require('connect-mongodb-session')(session);
+const valkey = require('./api/db/connectRedis')
+const connectDb = require('./api/db/connectDB')
+const log = require('./api/utils/logger').default
 
 const contactRoutes = require("./api/routes/contactRoutes");
 const blogRoutes = require("./api/routes/blogRoute");
@@ -15,12 +17,11 @@ const authRoutes = require("./api/routes/authRoute");
 const emaillimitRoute = require("./api/routes/emailLimitRoute");
 const newsLetterRoute = require("./api/routes/newsLetterRoutes")
 
-connectDB();
+valkey.connectValkey();
+connectDb();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const URI = process.env.URI;
-const API = process.env.API_URL
-
 
 app.use(
   cors({
@@ -66,5 +67,5 @@ app.use("/api/v1/newsLetter",newsLetterRoute)
 app.use("/", authRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  log.info(`Server is running on port ${PORT}`);
 });
