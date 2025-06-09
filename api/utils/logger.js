@@ -1,17 +1,28 @@
-import logger from 'pino'
-import dayjs from 'dayjs'
+import pino from 'pino';
+import dayjs from 'dayjs';
 
-const log = logger({
-    transport: {
-        target: 'pino-pretty',
-        options: {
-          colorize: true
-        }
-    },
-    base : {
-        pid: false
-    },
-    timestamp: () => `, "time":"${dayjs().format()}"`,
-});
+const isDev = process.env.NODE_ENV !== 'production';
+
+const log = pino(
+  isDev
+    ? {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+          },
+        },
+        base: {
+          pid: false,
+        },
+        timestamp: () => `, "time":"${dayjs().format()}"`,
+      }
+    : {
+        base: {
+          pid: false,
+        },
+        timestamp: () => `, "time":"${dayjs().format()}"`,
+      }
+);
 
 export default log;
